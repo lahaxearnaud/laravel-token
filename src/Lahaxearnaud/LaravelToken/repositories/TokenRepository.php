@@ -4,6 +4,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use UserFilterableInterface;
 use Lahaxearnaud\LaravelToken\Models\Token;
+use Lahaxearnaud\LaravelToken\Generator\TokenGenerator;
 
 class TokenRepository implements RepositoryInterface
 {

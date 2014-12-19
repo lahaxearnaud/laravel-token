@@ -44,6 +44,7 @@ class LaravelTokenServiceProvider extends ServiceProvider {
         {
             return new LaravelToken($app->make('tokenrepository'), new TokenCrypt());
         });
+
 	}
 
 	/**

@@ -16,7 +16,7 @@ class LaravelToken {
 	 */
 	protected $crypt;
 
-	public function __construct(RepositoryInterface $repository,  CryptInterface $crypt)
+	function __construct(RepositoryInterface $repository,  CryptInterface $crypt)
 	{
 		$this->repository = $repository;
 		$this->crypt = $crypt;

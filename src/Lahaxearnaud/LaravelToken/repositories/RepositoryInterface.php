@@ -42,8 +42,7 @@ interface RepositoryInterface
      *
      * @return Collection
      */
-    public function findByToken($token);
-
+    public function findByToken($token, $userId);
 
     /**
      * @param integer $id
