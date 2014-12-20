@@ -15,6 +15,6 @@ script:
   - phpunit --debug --coverage-clover build/logs/clover.xml
 
 after_script:
-  - export CODECLIMATE_REPO_TOKEN=169e04fb10a471b6237ddf3ae06b556c6ae50a58db938629a8c25ebba2da758e
+  - export CODECLIMATE_REPO_TOKEN=f75e79542048ffece80188358ffc1bbb5936f3c6f41fcccf9ee9d79ab8f6b8e7
   - ./vendor/bin/test-reporter
 
