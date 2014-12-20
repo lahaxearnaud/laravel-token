@@ -58,3 +58,4 @@ class LaravelTokenServiceProvider extends ServiceProvider {
 	}
 
 }
+

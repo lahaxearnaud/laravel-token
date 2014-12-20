@@ -104,3 +104,4 @@ class TokenRepository implements RepositoryInterface {
 		return $this->model;
 	}
 }
+

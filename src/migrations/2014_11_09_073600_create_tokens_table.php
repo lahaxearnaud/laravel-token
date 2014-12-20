@@ -17,8 +17,6 @@ class CreateTokensTable extends Migration {
 			$table->integer('user_id')->unsigned()->index();
 			$table->timestamp('expire_at');
 			$table->timestamps();
-
-			//$table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 		});
 	}
 
