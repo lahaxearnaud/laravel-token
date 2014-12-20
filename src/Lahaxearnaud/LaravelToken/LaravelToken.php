@@ -116,7 +116,7 @@ class LaravelToken {
      */
 	public function isValid(Token $token) {
 
-		return $token->expire_at->diffInMinutes(Carbon::now()) > 0;
+		return $token->expire_at->isFuture();
 	}
 
     /**

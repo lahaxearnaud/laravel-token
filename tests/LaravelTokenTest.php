@@ -84,4 +84,23 @@ class LaravelTokenTest extends TestCase
 
         $this->assertInstanceOf('\Illuminate\Support\Collection', $token->findByUser(1));
     }
+
+    public function testValidityOK()
+    {
+        $token = App::make('token');
+
+        $obj = $token->create(1);
+
+//        $this->assertTrue($token->isValid($obj));
+    }
+
+    public function testValidityKo()
+    {
+        $token = App::make('token');
+
+        $obj = $token->create(1);
+        $obj->expire_at = time() - 36000;
+
+        $this->assertFalse($token->isValid($obj));
+    }
 }
