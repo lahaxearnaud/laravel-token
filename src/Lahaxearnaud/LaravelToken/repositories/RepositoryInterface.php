@@ -3,6 +3,12 @@
 use Illuminate\Database\Eloquent\Collection;
 use Lahaxearnaud\LaravelToken\Models\Token;
 
+/**
+ * Interface RepositoryInterface
+ *
+ * @author  LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
+ * @package Lahaxearnaud\LaravelToken\Repositories
+ */
 interface RepositoryInterface {
 
 	/**

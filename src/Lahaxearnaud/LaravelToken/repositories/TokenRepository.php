@@ -4,6 +4,12 @@ use Illuminate\Database\Eloquent\Collection;
 use Lahaxearnaud\LaravelToken\Generator\TokenGenerator;
 use Lahaxearnaud\LaravelToken\Models\Token;
 
+/**
+ * Class TokenRepository
+ *
+ * @author  LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
+ * @package Lahaxearnaud\LaravelToken\Repositories
+ */
 class TokenRepository implements RepositoryInterface {
 	/**
 	 * @var Token

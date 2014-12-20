@@ -31,7 +31,6 @@ class Token extends Model
         return $this->belongsTo('User', 'user_id');
     }
 
-
     public function getDates()
     {
 
