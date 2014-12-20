@@ -1,7 +1,11 @@
 {
     "name": "lahaxearnaud/laravel-token",
     "description": "Laravel 4 token management",
-    "keywords": ["token", "laravel", "notification"],
+    "keywords": [
+        "token",
+        "laravel",
+        "notification"
+    ],
     "license": "MIT",
     "authors": [
         {
