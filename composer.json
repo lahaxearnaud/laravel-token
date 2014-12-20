@@ -19,7 +19,9 @@
     },
     "require-dev": {
         "phpunit/phpunit": "3.7.*",
-        "orchestra/testbench": "~2.2.0"
+        "orchestra/testbench": "~2.2.0",
+        "laravel/framework": "4.2.*",
+        "codeclimate/php-test-reporter": "dev-master"
     },
     "autoload": {
         "psr-0": {
@@ -27,7 +29,8 @@
         },
         "classmap": [
             "tests/TestCase.php",
-            "src/Lahaxearnaud/LaravelToken"
+            "src/Lahaxearnaud/LaravelToken",
+            "src/migrations"
         ]
     },
     "minimum-stability": "stable"

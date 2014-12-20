@@ -18,4 +18,30 @@ class TestCase extends TestBenchTestCase {
 			'LaravelToken',
 		)));
 	}
+
+	/**
+	 * Define environment setup.
+	 *
+	 * @param  \Illuminate\Foundation\Application  $app
+	 * @return void
+	 */
+	protected function getEnvironmentSetUp($app) {
+		$app['config']->set('database.default', 'testbench');
+		$app['config']->set('database.connections.testbench', array(
+			'driver' => 'sqlite',
+			'database' => ':memory:',
+			'prefix' => '',
+		));
+	}
+
+	public function setUp() {
+
+		parent::setUp();
+
+		$this->app['path.database'] = __DIR__;
+
+
+        $migration = new CreateTokensTable();
+        $migration->up();
+	}
 }
