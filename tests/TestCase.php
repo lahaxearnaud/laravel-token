@@ -32,6 +32,7 @@ class TestCase extends TestBenchTestCase {
 			'database' => ':memory:',
 			'prefix' => '',
 		));
+        $app['config']->set('app.key', md5_file(__FILE__));
 	}
 
 	public function setUp() {

@@ -91,7 +91,7 @@ class LaravelTokenTest extends TestCase
 
         $obj = $token->create(1);
 
-//        $this->assertTrue($token->isValid($obj));
+        $this->assertTrue($token->isValid($obj));
     }
 
     public function testValidityKo()
@@ -102,5 +102,61 @@ class LaravelTokenTest extends TestCase
         $obj->expire_at = time() - 36000;
 
         $this->assertFalse($token->isValid($obj));
+    }
+
+    public function testValidCryptTokenOK()
+    {
+        $token = App::make('token');
+
+        $obj = $token->create(1);
+        $token->persist($obj);
+
+        $this->assertTrue($token->isValidCryptToken($token->cryptToken($obj->token), 1));
+    }
+
+    public function testValidCryptTokenNotFound()
+    {
+        $token = App::make('token');
+
+        $this->assertFalse($token->isValidCryptToken('dummy', 1));
+    }
+
+    public function testValidCryptTokenExpired()
+    {
+        $token = App::make('token');
+
+        $obj = $token->create(1);
+        $obj->expire_at = time() - 36000;
+        $token->persist($obj);
+
+        $this->assertFalse($token->isValidCryptToken($token->cryptToken($obj->token), 1));
+    }
+
+    public function testValidUnCryptTokenOK()
+    {
+        $token = App::make('token');
+
+        $obj = $token->create(1);
+        $token->persist($obj);
+
+        $this->assertTrue($token->isValidToken($obj->token, 1));
+    }
+
+    public function testValidUnCryptTokenNotFound()
+    {
+        $token = App::make('token');
+
+        $this->assertFalse($token->isValidToken('DUMMY', 1));
+    }
+
+    public function testValidUnCryptTokenExpired()
+    {
+        $token = App::make('token');
+
+        $obj = $token->create(1);
+        $obj->expire_at = time() - 36000;
+        $token->persist($obj);
+
+        $this->assertFalse($token->isValidToken($obj->token, 1));
     }
 }
