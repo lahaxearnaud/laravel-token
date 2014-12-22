@@ -33,12 +33,84 @@ laravel-token
 
 ### Provider
 
+```
+	'providers' => array(
+        // ...
+		'Lahaxearnaud\LaravelToken\LaravelTokenServiceProvider',
+	),
+```
+
 ### Facase
+
+```
+	'aliases' => array(
+        // ...
+		'Token' => 'Lahaxearnaud\LaravelToken\LaravelTokenFacade',
+	),
+```
 
 ## Usage
 
 ### Create token
+```
+    $token = Token::create($userID);
+```
 
 ### Crypt token
+```
+    $token = Token::create($userID);
+    $cryptToken = Token::cryptToken($token->token);
+```
 
 ### Validate token
+
+If you crypt your token
+
+```
+    $tokenStr = Input::get('token');
+
+    $cryptToken = Token::isValidCryptToken($token->token, $userId);
+```
+
+If you don't crypt your token:
+```
+    $tokenStr = Input::get('token');
+
+    $cryptToken = Token::isValidToken($token->token, $userId);
+```
+
+If you use those functions the token is not burn. It can be use many times.
+
+For one shot usage token:
+
+```
+    $tokenStr = Input::get('token');
+
+    /**
+      * if the token is crypt do :
+      * $tokenStr = Token::uncryptToken($tokenStr);
+    **/
+
+    $tokenValid = true;
+    try {
+        // find the token
+        $token = $token->findByToken($tokenStr, $userId);
+
+        // test the token validity
+        if (Token::isValidToken($token)) {
+
+            // do what you need to do
+
+            // delete the token
+            Token::burn($token);
+        } else {
+            $tokenValid = false;
+        }
+    } catch (ModelNotFoundException $e) {
+        $tokenValid = false;
+    }
+
+    if($tokenValid) {
+        // manage errors
+    }
+```
