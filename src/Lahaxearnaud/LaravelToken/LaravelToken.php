@@ -1,6 +1,5 @@
 <?php namespace Lahaxearnaud\LaravelToken;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Lahaxearnaud\LaravelToken\Models\Token;
 use Lahaxearnaud\LaravelToken\Repositories\RepositoryInterface;
