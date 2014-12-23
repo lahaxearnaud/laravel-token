@@ -58,11 +58,13 @@ laravel-token
 ## Usage
 
 ### Create token
+
 ```
     $token = Token::create($userID);
 ```
 
 ### Crypt token
+
 ```
     $token = Token::create($userID);
     $cryptToken = Token::cryptToken($token->token);
@@ -79,6 +81,7 @@ If you crypt your token
 ```
 
 If you don't crypt your token:
+
 ```
     $tokenStr = Input::get('token');
 
@@ -126,11 +129,13 @@ For one shot usage token:
 ### Security
 
 Crypt a string token
+
 ```
     public function cryptToken ($uncrypt)
 ```
 
 Uncrypt a string token
+
 ```
     public function uncryptToken ($crypt)
 ```
@@ -144,6 +149,7 @@ Create a Token instance
 ```
 
 Insert the token in database
+
 ```
     public function persist (Token $token)
 ```
@@ -159,11 +165,13 @@ Delete the token
 ### Validation
 
 Fetch the token, check id the token has the good user ID and if it is not expired
+
 ```
     public function isValidToken ($token, $userId)
 ```
 
 Same as isValidToken but uncrypt the token before trying to find him
+
 ```
     public function isValidCryptToken ($token, $userId)
 ```
@@ -177,16 +185,19 @@ Only validate if the token is expired
 ### Find
 
 Find the token by ID
+
 ```
     public function find ($id)
 ```
 
 Find the token by token string
+
 ```
     public function findByToken ($token, $userId)
 ```
 
 Find all token for an user
+
 ```
     public function findByUser ($idUser)
 ```
