@@ -17,6 +17,12 @@ laravel-token
     + [Create token](#create-token)
     + [Crypt token](#crypt-token)
     + [Validate token](#validate-token)
++ [API](#api)
+    + [Security](#security)
+    + [Creation](#creation)
+    + [Deletion](#deletion)
+    + [Validation](#validation)
+    + [Find](#find)
 
 ## Installation
 
@@ -114,3 +120,74 @@ For one shot usage token:
         // manage errors
     }
 ```
+
+## API
+
+### Security
+
+Crypt a string token
+```
+    public function cryptToken ($uncrypt)
+```
+
+Uncrypt a string token
+```
+    public function uncryptToken ($crypt)
+```
+
+### Creation
+
+Create a Token instance
+
+```
+    public function create ($userId, $lifetime = 3600, $length = 100)
+```
+
+Insert the token in database
+```
+    public function persist (Token $token)
+```
+
+### Deletion
+
+Delete the token
+
+```
+    public function burn (Token $token)
+```
+
+### Validation
+
+Fetch the token, check id the token has the good user ID and if it is not expired
+```
+    public function isValidToken ($token, $userId)
+```
+
+Same as isValidToken but uncrypt the token before trying to find him
+```
+    public function isValidCryptToken ($token, $userId)
+```
+
+Only validate if the token is expired
+
+```
+    public function isValid (Token $token)
+```
+
+### Find
+
+Find the token by ID
+```
+    public function find ($id)
+```
+
+Find the token by token string
+```
+    public function findByToken ($token, $userId)
+```
+
+Find all token for an user
+```
+    public function findByUser ($idUser)
+```
+
