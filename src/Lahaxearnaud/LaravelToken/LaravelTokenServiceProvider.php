@@ -108,7 +108,11 @@ class LaravelTokenServiceProvider extends ServiceProvider
 
     public function getTokenValueFromRequest()
     {
-        $tokenFieldsName = \Config::get('lahaxearnaud/laravel-token:tokenFieldName', 'token');
+        $tokenFieldsName = \Config::get('lahaxearnaud/laravel-token:tokenFieldName');
+
+        if(!is_string($tokenFieldsName)) {
+            $tokenFieldsName = 'token';
+        }
 
         $token = \Input::get($tokenFieldsName);
 

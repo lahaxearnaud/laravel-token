@@ -19,6 +19,7 @@ Laravel token
     + [Crypt token](#crypt-token)
     + [Validate token](#validate-token)
     + [Route filter](#route-filter)
+    + [Events](#events)
 + [API](#api)
     + [Security](#security)
     + [Creation](#creation)
@@ -143,8 +144,27 @@ Simple token protection:
 Authentification by token
 
 ```
+    Route::get('/login-by-token', array('before' => 'auth.token.auth', function () {
+        echo Auth::user()->username;
+    }));
+```
+
+If an error occur on token validation a http error (``401``) is send to the browser. 
+
+
+By default you can send your token in parameter, cookie or header. The default name of the field is ``token`` but you 
+can change it by publishing and change the configuration:
 
 ```
+    $ php artisan config:publish lahaxearnaud/laravel-token
+```
+
+Then change the tokenFieldName ``config/packages/lahaxearnaud/laravel-token/config.php``.
+
+### Events
+
+You can listen events on tokens
+``// todo add events``
 
 ## API
 
@@ -154,7 +174,7 @@ Crypt a string token
 
 ```
     public function cryptToken ($uncrypt)
-```
+```,
 
 Uncrypt a string token
 
