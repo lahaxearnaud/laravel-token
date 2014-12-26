@@ -13,11 +13,12 @@ Laravel token
 + [Installation](#installation)
     + [Database](#database)
     + [Provider](#provider)
-    + [Facase](#facase)
+    + [Facade](#facade)
 + [Usage](#usage)
     + [Create token](#create-token)
     + [Crypt token](#crypt-token)
     + [Validate token](#validate-token)
+    + [Route filter](#route-filter)
 + [API](#api)
     + [Security](#security)
     + [Creation](#creation)
@@ -38,6 +39,10 @@ Laravel token
 
 ### Database
 
+```
+$ php artisan migrate --package="lahaxearnaud/laravel-token"
+```
+
 ### Provider
 
 ```
@@ -47,7 +52,7 @@ Laravel token
 	),
 ```
 
-### Facase
+### Facade
 
 ```
 	'aliases' => array(
@@ -123,6 +128,22 @@ For one shot usage token:
     if($tokenValid) {
         // manage errors
     }
+```
+
+### Route filter
+
+Simple token protection:
+
+```
+    Route::get('/token-protected', array('before' => 'auth.token', function () {
+        echo "I am token protected";
+    }));
+```
+
+Authentification by token
+
+```
+
 ```
 
 ## API

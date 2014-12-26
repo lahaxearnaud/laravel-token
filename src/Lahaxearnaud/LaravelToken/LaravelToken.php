@@ -37,7 +37,7 @@ class LaravelToken
      * @author LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
      * @return bool
      */
-    public function isValidCryptToken ($token, $userId)
+    public function isValidCryptToken ($token, $userId = null)
     {
 
         return $this->isValidToken($this->uncryptToken($token), $userId);
@@ -50,7 +50,7 @@ class LaravelToken
      * @author LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
      * @return bool
      */
-    public function isValidToken ($token, $userId)
+    public function isValidToken ($token, $userId = null)
     {
         try {
             $token = $this->findByToken($token, $userId);
@@ -94,7 +94,7 @@ class LaravelToken
      * @author LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
      * @return Token
      */
-    public function create ($userId, $lifetime = 3600, $length = 100)
+    public function create ($userId = null, $lifetime = 3600, $length = 100)
     {
 
         return $this->repository->create($userId, $lifetime, $length);
@@ -119,7 +119,7 @@ class LaravelToken
      * @author LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function findByToken ($token, $userId)
+    public function findByToken ($token, $userId = null)
     {
 
         return $this->repository->findByToken($token, $userId);
