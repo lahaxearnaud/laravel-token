@@ -202,13 +202,13 @@ You can listen events:
 Crypt a string token
 
 ```
-    public function cryptToken ($uncrypt)
-```,
+    Token::cryptToken ($uncrypt)
+```
 
 Uncrypt a string token
 
 ```
-    public function uncryptToken ($crypt)
+    Token::uncryptToken ($crypt)
 ```
 
 ### Creation
@@ -216,13 +216,14 @@ Uncrypt a string token
 Create a Token instance
 
 ```
-    public function create ($userId, $lifetime = 3600, $length = 100)
+    Token::create ($userId, $lifetime = 3600, $length = 100)
 ```
+
 
 Insert the token in database
 
 ```
-    public function persist (Token $token)
+    Token::persist (Token $token)
 ```
 
 ### Deletion
@@ -230,7 +231,7 @@ Insert the token in database
 Delete the token
 
 ```
-    public function burn (Token $token)
+    Token::burn (Token $token)
 ```
 
 ### Validation
@@ -238,19 +239,19 @@ Delete the token
 Fetch the token, check id the token has the good user ID and if it is not expired
 
 ```
-    public function isValidToken ($token, $userId)
+    Token::isValidToken ($token, $userId)
 ```
 
 Same as isValidToken but uncrypt the token before trying to find him
 
 ```
-    public function isValidCryptToken ($token, $userId)
+    Token::isValidCryptToken ($token, $userId)
 ```
 
 Only validate if the token is expired
 
 ```
-    public function isValid (Token $token)
+    Token::isValid (Token $token)
 ```
 
 ### Find
@@ -258,19 +259,19 @@ Only validate if the token is expired
 Find the token by ID
 
 ```
-    public function find ($id)
+    Token::find ($id)
 ```
 
 Find the token by token string
 
 ```
-    public function findByToken ($token, $userId)
+    Token::findByToken ($token, $userId)
 ```
 
 Find all token for an user
 
 ```
-    public function findByUser ($idUser)
+    Token::findByUser ($idUser)
 ```
 
 ## Todo
