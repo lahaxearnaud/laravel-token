@@ -96,8 +96,11 @@ class LaravelToken
      */
     public function create ($userId = null, $lifetime = 3600, $length = 100)
     {
+        $token =  $this->repository->create($userId, $lifetime, $length);
 
-        return $this->repository->create($userId, $lifetime, $length);
+        \Event::fire('token.created', array($token));
+
+        return $token;
     }
 
     /**
@@ -146,6 +149,8 @@ class LaravelToken
     public function burn (Token $token)
     {
 
+        \Event::fire('token.burn', array($token));
+
         return $this->repository->delete($token);
     }
 
@@ -158,7 +163,13 @@ class LaravelToken
     public function isValid (Token $token)
     {
 
-        return $token->expire_at->isFuture();
+        $isValid =  $token->expire_at->isFuture();
+
+        if(!$isValid) {
+            \Event::fire('token.notValid', array($token));
+        }
+
+        return $isValid;
     }
 
     /**
@@ -169,6 +180,8 @@ class LaravelToken
      */
     public function persist (Token $token)
     {
+
+        \Event::fire('token.saved', array($token));
 
         return $this->repository->save($token);
     }

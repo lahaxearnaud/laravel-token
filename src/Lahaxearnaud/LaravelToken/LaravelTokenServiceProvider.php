@@ -55,10 +55,12 @@ class LaravelTokenServiceProvider extends ServiceProvider
                 $token = \Token::findByToken($strToken);
 
                 if (!\Token::isValid($token)) {
+
                     return \Response::make('Unauthorized (Token not valid)', 401);
                 }
 
             } catch (ModelNotFoundException $e) {
+                \Event::fire('token.notFound', array($e));
 
                 return \Response::make('Unauthorized (Token not found)', 401);
             }
@@ -73,22 +75,30 @@ class LaravelTokenServiceProvider extends ServiceProvider
                 $token = \Token::findByToken($strToken);
 
                 if (!\Token::isValid($token)) {
+
                     return \Response::make('Unauthorized (Token not valid)', 401);
                 }
 
                 $user = $token->user;
 
                 if ($user === NULL) {
+                    Event::fire('token.notLoginToken', array($token));
+
                     return \Response::make('Unauthorized (Not a login Token)', 401);
                 }
 
                 if ($user->loggableByToken()) {
                     \Auth::login($user);
+
+                    \Event::fire('token.logged', array($token, $user));
                 } else {
+                    \Event::fire('token.notLoggableUser', array($token, $user));
+
                     return \Response::make('Unauthorized (Logged by token forbidden)', 401);
                 }
 
             } catch (ModelNotFoundException $e) {
+                \Event::fire('token.notFound', array($e));
 
                 return \Response::make('Unauthorized (Token not found)', 401);
             }

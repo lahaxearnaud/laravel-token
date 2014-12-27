@@ -163,8 +163,37 @@ Then change the tokenFieldName ``config/packages/lahaxearnaud/laravel-token/conf
 
 ### Events
 
-You can listen events on tokens
-``// todo add events``
+You can listen events:
+
+- Token not found
+    - name: ``token.notFound`` 
+    - parameters:
+        - the token string
+- Token not valid
+    - name: ``token.notValid``
+    - parameters:
+        - the token object
+- Token doesn't allow to be used for login
+    - name: ``token.notLoginToken``
+    - parameters:
+        - the token object
+- The user can't logged with a token
+    - name: ``token.notLoggableUser``
+    - parameters:
+        - the token object
+        - the user object
+- Token burn
+    - name: ``token.burned``
+    - parameters:
+        - the token object
+- Token created
+    - name: ``token.created``
+    - parameters:
+        - the token object
+- Token saved
+    - name: ``token.saved``
+    - parameters:
+        - the token object
 
 ## API
 
