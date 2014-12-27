@@ -273,3 +273,10 @@ Find all token for an user
     public function findByUser ($idUser)
 ```
 
+## Todo
+
+- token type
+- token unicity (string)
+- config to allow only one token by user and type
+- command to clear token table
+- command to purge expired token
