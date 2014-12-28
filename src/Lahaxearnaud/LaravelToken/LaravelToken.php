@@ -106,7 +106,7 @@ class LaravelToken
                 \Event::fire('token.created', array($token));
                 $tokenSaved = $this->persist($token);
             } catch (QueryException $e) {
-                if ($e->getCode() != 2300) {
+                if (0 === strpos($e->getCode(), '23')) {
                     throw $e;
                 }
             }
