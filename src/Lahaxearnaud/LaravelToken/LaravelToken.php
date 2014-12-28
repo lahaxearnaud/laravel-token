@@ -98,19 +98,14 @@ class LaravelToken
     public function create ($userId = NULL, $lifetime = 3600, $length = 100)
     {
         $token      = NULL;
-        $tokenSaved = FALSE;
 
-        while (!$tokenSaved) {
-            try {
-                $token = $this->repository->create($userId, $lifetime, $length);
-                \Event::fire('token.created', array($token));
-                $tokenSaved = $this->persist($token);
-            } catch (QueryException $e) {
-                if (0 === strpos($e->getCode(), '23')) {
-                    throw $e;
-                }
-            }
-        }
+        do {
+            $token = $this->repository->create($userId, $lifetime, $length);
+        } while ($this->repository->exists($token->token));
+
+        \Event::fire('token.created', array($token));
+
+        $this->persist($token);
 
         return $token;
     }
