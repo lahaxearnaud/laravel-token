@@ -272,5 +272,3 @@ Find all token for an user
 
 - token type
 - config to allow only one token by user and type
-- command to clear token table
-- command to purge expired token

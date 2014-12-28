@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\ServiceProvider;
+use Lahaxearnaud\LaravelToken\commands\ClearTokenCommand;
 use Lahaxearnaud\LaravelToken\Generator\TokenGenerator;
 use Lahaxearnaud\LaravelToken\Models\Token;
 use Lahaxearnaud\LaravelToken\Repositories\TokenRepository;
@@ -103,6 +104,13 @@ class LaravelTokenServiceProvider extends ServiceProvider
                 return \Response::make('Unauthorized (Token not found)', 401);
             }
         });
+
+        $this->app['token.clear'] = $this->app->share(function($app)
+        {
+            return new ClearTokenCommand();
+        });
+
+        $this->commands('token.clear');
     }
 
     /**
