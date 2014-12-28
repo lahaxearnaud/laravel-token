@@ -13,7 +13,7 @@ class CreateTokensTable extends Migration {
 	public function up() {
 		Schema::create('tokens', function (Blueprint $table) {
 			$table->increments('id');
-			$table->text('token')->uniq();
+			$table->string('token', 128)->unique();
 			$table->integer('user_id')->unsigned()->index()->nullable();
 			$table->timestamp('expire_at');
 			$table->timestamps();

@@ -1,6 +1,7 @@
 <?php namespace Lahaxearnaud\LaravelToken;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Database\QueryException;
 use Lahaxearnaud\LaravelToken\Models\Token;
 use Lahaxearnaud\LaravelToken\Repositories\RepositoryInterface;
 use Lahaxearnaud\LaravelToken\Security\CryptInterface;
@@ -37,7 +38,7 @@ class LaravelToken
      * @author LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
      * @return bool
      */
-    public function isValidCryptToken ($token, $userId = null)
+    public function isValidCryptToken ($token, $userId = NULL)
     {
 
         return $this->isValidToken($this->uncryptToken($token), $userId);
@@ -50,7 +51,7 @@ class LaravelToken
      * @author LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
      * @return bool
      */
-    public function isValidToken ($token, $userId = null)
+    public function isValidToken ($token, $userId = NULL)
     {
         try {
             $token = $this->findByToken($token, $userId);
@@ -94,11 +95,22 @@ class LaravelToken
      * @author LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
      * @return Token
      */
-    public function create ($userId = null, $lifetime = 3600, $length = 100)
+    public function create ($userId = NULL, $lifetime = 3600, $length = 100)
     {
-        $token =  $this->repository->create($userId, $lifetime, $length);
+        $token      = NULL;
+        $tokenSaved = FALSE;
 
-        \Event::fire('token.created', array($token));
+        while (!$tokenSaved) {
+            try {
+                $token = $this->repository->create($userId, $lifetime, $length);
+                \Event::fire('token.created', array($token));
+                $tokenSaved = $this->persist($token);
+            } catch (QueryException $e) {
+                if ($e->getCode() != 2300) {
+                    throw $e;
+                }
+            }
+        }
 
         return $token;
     }
@@ -122,7 +134,7 @@ class LaravelToken
      * @author LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function findByToken ($token, $userId = null)
+    public function findByToken ($token, $userId = NULL)
     {
 
         return $this->repository->findByToken($token, $userId);
@@ -163,9 +175,9 @@ class LaravelToken
     public function isValid (Token $token)
     {
 
-        $isValid =  $token->expire_at->isFuture();
+        $isValid = $token->expire_at->isFuture();
 
-        if(!$isValid) {
+        if (!$isValid) {
             \Event::fire('token.notValid', array($token));
         }
 
@@ -181,8 +193,10 @@ class LaravelToken
     public function persist (Token $token)
     {
 
+        $result = $this->repository->save($token);
+
         \Event::fire('token.saved', array($token));
 
-        return $this->repository->save($token);
+        return $result;
     }
 }

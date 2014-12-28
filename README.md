@@ -213,18 +213,12 @@ Uncrypt a string token
 
 ### Creation
 
-Create a Token instance
+Create a Token instance (directly saved in database)
 
 ```
     Token::create ($userId, $lifetime = 3600, $length = 100)
 ```
 
-
-Insert the token in database
-
-```
-    Token::persist (Token $token)
-```
 
 ### Deletion
 
@@ -277,7 +271,6 @@ Find all token for an user
 ## Todo
 
 - token type
-- token unicity (string)
 - config to allow only one token by user and type
 - command to clear token table
 - command to purge expired token

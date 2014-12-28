@@ -106,6 +106,11 @@ class TokenRepository implements RepositoryInterface {
 		return $token->save();
 	}
 
+	public function tokenExists($tokenStr) {
+
+		return $this->model->where('token', $tokenStr)->count() > 0;
+	}
+
 	/**
 	 * @return Token
 	 */

@@ -23,6 +23,9 @@ class TokenGenerator {
 			throw new \InvalidArgumentException("You can't generate token with less than 10 chars", 1);
 		}
 
-		return substr(str_shuffle(str_random($length) . $this->generateSalt()), 0, $length);
+		$uniq = uniqid();
+
+		return substr(str_shuffle(str_random($length) . $this->generateSalt()), 0, $length - (strlen($uniq) +1))
+				. '-' . $uniq;
 	}
 }
