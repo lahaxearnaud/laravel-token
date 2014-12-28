@@ -83,7 +83,7 @@ class LaravelTokenServiceProvider extends ServiceProvider
                 $user = $token->user;
 
                 if ($user === NULL) {
-                    Event::fire('token.notLoginToken', array($token));
+                    \Event::fire('token.notLoginToken', array($token));
 
                     return \Response::make('Unauthorized (Not a login Token)', 401);
                 }

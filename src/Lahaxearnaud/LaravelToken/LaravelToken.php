@@ -1,7 +1,6 @@
 <?php namespace Lahaxearnaud\LaravelToken;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Database\QueryException;
 use Lahaxearnaud\LaravelToken\Models\Token;
 use Lahaxearnaud\LaravelToken\Repositories\RepositoryInterface;
 use Lahaxearnaud\LaravelToken\Security\CryptInterface;

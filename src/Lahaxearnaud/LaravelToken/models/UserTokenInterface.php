@@ -16,4 +16,4 @@ interface UserTokenInterface {
      * @return boolean
      */
     public function loggableByToken();
-} 
+}

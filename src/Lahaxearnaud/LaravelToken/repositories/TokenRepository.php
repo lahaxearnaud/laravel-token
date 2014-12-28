@@ -79,7 +79,7 @@ class TokenRepository implements RepositoryInterface {
 
         $query = $this->model->where('token', $token);
 
-        if($userId != null) {
+        if($userId !== null) {
             $query->where('user_id', $userId);
         }
 

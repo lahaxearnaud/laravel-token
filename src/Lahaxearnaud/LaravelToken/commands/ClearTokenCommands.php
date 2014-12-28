@@ -12,7 +12,6 @@ use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Lahaxearnaud\LaravelToken\Models\Token;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Process\Process;
 
 class ClearTokenCommand extends Command
 {
