@@ -33,7 +33,7 @@ Laravel token
 ## Installation
 
 
-```
+```json
 {
     "require": {
         "lahaxearnaud/laravel-token": "~0.1"
@@ -43,13 +43,13 @@ Laravel token
 
 ### Database
 
-```
-$ php artisan migrate --package="lahaxearnaud/laravel-token"
+```bash
+    $ php artisan migrate --package="lahaxearnaud/laravel-token"
 ```
 
 ### Provider
 
-```
+```php
 	'providers' => array(
         // ...
 		'Lahaxearnaud\LaravelToken\LaravelTokenServiceProvider',
@@ -58,7 +58,7 @@ $ php artisan migrate --package="lahaxearnaud/laravel-token"
 
 ### Facade
 
-```
+```php
 	'aliases' => array(
         // ...
 		'Token' => 'Lahaxearnaud\LaravelToken\LaravelTokenFacade',
@@ -69,13 +69,13 @@ $ php artisan migrate --package="lahaxearnaud/laravel-token"
 
 ### Create token
 
-```
+```php
     $token = Token::create($userID);
 ```
 
 ### Crypt token
 
-```
+```php
     $token = Token::create($userID);
     $cryptToken = Token::cryptToken($token->token);
 ```
@@ -84,16 +84,16 @@ $ php artisan migrate --package="lahaxearnaud/laravel-token"
 
 If you crypt your token
 
-```
-    $tokenStr = Input::get('token');
+```php
+    $tokenStr = Token::getTokenValueFromRequest();
 
     $cryptToken = Token::isValidCryptToken($token->token, $userId);
 ```
 
 If you don't crypt your token:
 
-```
-    $tokenStr = Input::get('token');
+```php
+    $tokenStr = Token::getTokenValueFromRequest();
 
     $cryptToken = Token::isValidToken($token->token, $userId);
 ```
@@ -102,7 +102,7 @@ If you use those functions the token is not burn. It can be use many times.
 
 For one shot usage token:
 
-```
+```php
     $tokenStr = Token::getTokenValueFromRequest();
 
     /**
@@ -138,7 +138,7 @@ For one shot usage token:
 
 Simple token protection:
 
-```
+```php
     Route::get('/token-protected', array('before' => 'token', function () {
         echo "I am token protected";
     }));
@@ -146,7 +146,7 @@ Simple token protection:
 
 Authentification by token
 
-```
+```php
     Route::get('/login-by-token', array('before' => 'token.auth', function () {
         echo Auth::user()->username;
     }));
@@ -154,8 +154,7 @@ Authentification by token
 
 In order to use the authentification by token your class User need to implements ``Lahaxearnaud\LaravelToken\Models\UserTokenInterface``
 
-```
-<?php
+```php
 
 use Illuminate\Auth\UserTrait;
 use Illuminate\Auth\UserInterface;
@@ -196,14 +195,14 @@ If an error occur on token validation a http error (``401``) is send to the brow
 By default you can send your token in parameter, cookie or header. The default name of the field is ``token`` but you 
 can change it by publishing and change the configuration:
 
-```
+```bash
     $ php artisan config:publish lahaxearnaud/laravel-token
 ```
 
 Then change the tokenFieldName ``config/packages/lahaxearnaud/laravel-token/config.php``.
 
 You can get the token instance via:
-```
+```php
     Token::getCurrentToken();
 ```
 
@@ -246,12 +245,12 @@ You can listen events:
     
     ### Delete expired tokens
         Without any option the command delete all expired tokens.
-        ```
+        ```bash
             $ php artisan token:clean
         ```
     ### Truncate the table
         If you specified ``--all`` the table will be truncate.
-        ```
+        ```bash
             $ php artisan token:clean -a
         ```
 ## API
@@ -260,13 +259,13 @@ You can listen events:
 
 Crypt a string token
 
-```
+```php
     Token::cryptToken ($uncrypt)
 ```
 
 Uncrypt a string token
 
-```
+```php
     Token::uncryptToken ($crypt)
 ```
 
@@ -274,7 +273,7 @@ Uncrypt a string token
 
 Create a Token instance (directly saved in database)
 
-```
+```php
     Token::create ($userId, $lifetime = 3600, $length = 100)
 ```
 
@@ -283,7 +282,7 @@ Create a Token instance (directly saved in database)
 
 Delete the token
 
-```
+```php
     Token::burn (Token $token)
 ```
 
@@ -291,19 +290,19 @@ Delete the token
 
 Fetch the token, check id the token has the good user ID and if it is not expired
 
-```
+```php
     Token::isValidToken ($token, $userId)
 ```
 
 Same as isValidToken but uncrypt the token before trying to find him
 
-```
+```php
     Token::isValidCryptToken ($token, $userId)
 ```
 
 Only validate if the token is expired
 
-```
+```php
     Token::isValid (Token $token)
 ```
 
@@ -311,19 +310,19 @@ Only validate if the token is expired
 
 Find the token by ID
 
-```
+```php
     Token::find ($id)
 ```
 
 Find the token by token string
 
-```
+```php
     Token::findByToken ($token, $userId)
 ```
 
 Find all token for an user
 
-```
+```php
     Token::findByUser ($idUser)
 ```
 
