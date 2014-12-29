@@ -24,6 +24,11 @@ class LaravelToken
      */
     protected $crypt;
 
+    /**
+     * @var Token
+     */
+    protected $currentToken;
+
     function __construct (RepositoryInterface $repository, CryptInterface $crypt)
     {
         $this->repository = $repository;
@@ -192,5 +197,25 @@ class LaravelToken
         \Event::fire('token.saved', array($token));
 
         return $result;
+    }
+
+    /**
+     * @return Token
+     */
+    public function getCurrentToken()
+    {
+        return $this->currentToken;
+    }
+
+    /**
+     * @param Token $currentToken
+     *
+     * @return self
+     */
+    public function setCurrentToken($currentToken)
+    {
+        $this->currentToken = $currentToken;
+
+        return $this;
     }
 }

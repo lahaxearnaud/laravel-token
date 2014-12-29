@@ -136,7 +136,7 @@ For one shot usage token:
 Simple token protection:
 
 ```
-    Route::get('/token-protected', array('before' => 'auth.token', function () {
+    Route::get('/token-protected', array('before' => 'token', function () {
         echo "I am token protected";
     }));
 ```
@@ -144,7 +144,7 @@ Simple token protection:
 Authentification by token
 
 ```
-    Route::get('/login-by-token', array('before' => 'auth.token.auth', function () {
+    Route::get('/login-by-token', array('before' => 'token.auth', function () {
         echo Auth::user()->username;
     }));
 ```
