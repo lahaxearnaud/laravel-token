@@ -33,6 +33,16 @@ class TestCase extends TestBenchTestCase {
 			'prefix' => '',
 		));
         $app['config']->set('app.key', md5_file(__FILE__));
+
+		Route::get('/token/auth', array('before' => 'token.auth', function () {
+			echo "auth";
+		}));
+
+		Route::get('/token/simple', array('before' => 'token', function () {
+			echo "token";
+		}));
+
+		Route::enableFilters();
 	}
 
 	public function setUp() {
@@ -44,5 +54,19 @@ class TestCase extends TestBenchTestCase {
 
         $migration = new CreateTokensTable();
         $migration->up();
+
+		Schema::create('users', function (\Illuminate\Database\Schema\Blueprint $table) {
+			$table->increments('id');
+			$table->string('username', 128)->unique();
+			$table->timestamps();
+		});
+
+		$user = new User();
+		$user->username = 'jerry';
+		$user->save();
+
+		$user = new User();
+		$user->username = 'khan';
+		$user->save();
 	}
 }
