@@ -67,7 +67,7 @@ class LaravelTokenServiceProvider extends ServiceProvider
                 }
 
             } catch (ModelNotFoundException $e) {
-                Event::fire('token.notFound', array($e));
+                Event::fire('token.notFound', array($e, $strToken));
 
                 return Response::make('Unauthorized (Token not found)', 401);
             }
@@ -106,7 +106,7 @@ class LaravelTokenServiceProvider extends ServiceProvider
                 }
 
             } catch (ModelNotFoundException $e) {
-                Event::fire('token.notFound', array($e));
+                Event::fire('token.notFound', array($e, $strToken));
 
                 return Response::make('Unauthorized (Token not found)', 401);
             }
