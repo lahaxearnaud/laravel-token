@@ -71,7 +71,6 @@ class LaravelTokenTest extends TestCase
         $token = App::make('token');
 
         $obj = $token->create(1);
-        $token->persist($obj);
 
         $result = $token->findByUser(1);
         $this->assertInstanceOf('\Illuminate\Support\Collection', $result);
@@ -109,7 +108,6 @@ class LaravelTokenTest extends TestCase
         $token = App::make('token');
 
         $obj = $token->create(1);
-        $token->persist($obj);
 
         $this->assertTrue($token->isValidCryptToken($token->cryptToken($obj->token), 1));
     }
@@ -137,7 +135,6 @@ class LaravelTokenTest extends TestCase
         $token = App::make('token');
 
         $obj = $token->create(1);
-        $token->persist($obj);
 
         $this->assertTrue($token->isValidToken($obj->token, 1));
     }

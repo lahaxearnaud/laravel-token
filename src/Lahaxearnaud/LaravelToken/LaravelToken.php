@@ -4,7 +4,10 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Lahaxearnaud\LaravelToken\Models\Token;
 use Lahaxearnaud\LaravelToken\Repositories\RepositoryInterface;
 use Lahaxearnaud\LaravelToken\Security\CryptInterface;
-
+use \Config as Config;
+use \Input as Input;
+use \Request as Request;
+use \Cookie as Cookie;
 /**
  * Class LaravelToken
  *
@@ -24,6 +27,11 @@ class LaravelToken
      */
     protected $crypt;
 
+    /**
+     * @var Token
+     */
+    protected $currentToken;
+
     function __construct (RepositoryInterface $repository, CryptInterface $crypt)
     {
         $this->repository = $repository;
@@ -37,7 +45,7 @@ class LaravelToken
      * @author LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
      * @return bool
      */
-    public function isValidCryptToken ($token, $userId)
+    public function isValidCryptToken ($token, $userId = NULL)
     {
 
         return $this->isValidToken($this->uncryptToken($token), $userId);
@@ -50,7 +58,7 @@ class LaravelToken
      * @author LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
      * @return bool
      */
-    public function isValidToken ($token, $userId)
+    public function isValidToken ($token, $userId = NULL)
     {
         try {
             $token = $this->findByToken($token, $userId);
@@ -94,10 +102,19 @@ class LaravelToken
      * @author LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
      * @return Token
      */
-    public function create ($userId, $lifetime = 3600, $length = 100)
+    public function create ($userId = NULL, $lifetime = 3600, $length = 100)
     {
+        $token      = NULL;
 
-        return $this->repository->create($userId, $lifetime, $length);
+        do {
+            $token = $this->repository->create($userId, $lifetime, $length);
+        } while ($this->repository->exists($token->token));
+
+        \Event::fire('token.created', array($token));
+
+        $this->persist($token);
+
+        return $token;
     }
 
     /**
@@ -119,7 +136,7 @@ class LaravelToken
      * @author LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function findByToken ($token, $userId)
+    public function findByToken ($token, $userId = NULL)
     {
 
         return $this->repository->findByToken($token, $userId);
@@ -146,6 +163,8 @@ class LaravelToken
     public function burn (Token $token)
     {
 
+        \Event::fire('token.burn', array($token));
+
         return $this->repository->delete($token);
     }
 
@@ -158,7 +177,13 @@ class LaravelToken
     public function isValid (Token $token)
     {
 
-        return $token->expire_at->isFuture();
+        $isValid = $token->expire_at->isFuture();
+
+        if (!$isValid) {
+            \Event::fire('token.notValid', array($token));
+        }
+
+        return $isValid;
     }
 
     /**
@@ -170,6 +195,58 @@ class LaravelToken
     public function persist (Token $token)
     {
 
-        return $this->repository->save($token);
+        $result = $this->repository->save($token);
+
+        \Event::fire('token.saved', array($token));
+
+        return $result;
+    }
+
+    /**
+     * Get the token from the request. We try to get it from GET/POST then headers then cookies
+     *
+     * @author LAHAXE Arnaud <arnaud.lahaxe@gmail.com>
+     *
+     * @return mixed
+     */
+    public function getTokenValueFromRequest()
+    {
+        $tokenFieldsName = Config::get('lahaxearnaud/laravel-token:tokenFieldName');
+
+        if (!is_string($tokenFieldsName)) {
+            $tokenFieldsName = 'token';
+        }
+
+        $token = Input::get($tokenFieldsName);
+
+        if (empty($token)) {
+            $token = Request::header($tokenFieldsName);
+        }
+
+        if (empty($token)) {
+            $token = Cookie::get($tokenFieldsName);
+        }
+
+        return $token;
+    }
+
+    /**
+     * @return Token
+     */
+    public function getCurrentToken()
+    {
+        return $this->currentToken;
+    }
+
+    /**
+     * @param Token $currentToken
+     *
+     * @return self
+     */
+    public function setCurrentToken($currentToken)
+    {
+        $this->currentToken = $currentToken;
+
+        return $this;
     }
 }

@@ -35,7 +35,7 @@ class TokenRepository implements RepositoryInterface {
 	 *
 	 * @return Token              instance of token
 	 */
-	public function create($userId, $lifetime = 3600, $length = 50) {
+	public function create($userId = null, $lifetime = 3600, $length = 50) {
 		$token = new Token();
 		$token->token = $this->generator->generateToken($length);
 		$token->user_id = $userId;
@@ -75,11 +75,15 @@ class TokenRepository implements RepositoryInterface {
 	 *
 	 * @return Collection
 	 */
-	public function findByToken($token, $userId) {
+	public function findByToken($token, $userId = null) {
 
-		return $this->model->where('token', $token)
-		            ->where('user_id', $userId)
-		            ->firstOrFail();
+        $query = $this->model->where('token', $token);
+
+        if($userId !== null) {
+            $query->where('user_id', $userId);
+        }
+
+        return $query->firstOrFail();
 	}
 
 	/**
@@ -100,6 +104,11 @@ class TokenRepository implements RepositoryInterface {
 	public function save(Token $token) {
 
 		return $token->save();
+	}
+
+	public function exists($tokenStr) {
+
+		return $this->model->where('token', $tokenStr)->count() > 0;
 	}
 
 	/**
