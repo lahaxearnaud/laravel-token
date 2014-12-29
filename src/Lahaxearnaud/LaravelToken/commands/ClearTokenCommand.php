@@ -71,7 +71,7 @@ class ClearTokenCommand extends Command
     protected function getOptions()
     {
         return array(
-            array('all', 'a' ,InputOption::VALUE_NONE, 'All token (truncate table)')
+            array('all', 'all' ,InputOption::VALUE_NONE, 'All token (truncate table)')
         );
     }
 }

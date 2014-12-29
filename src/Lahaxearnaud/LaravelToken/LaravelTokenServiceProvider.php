@@ -1,16 +1,12 @@
 <?php namespace Lahaxearnaud\LaravelToken;
 
-use Config as Config;
-use Cookie as Cookie;
 use Event as Event;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\ServiceProvider;
-use Input as Input;
 use Lahaxearnaud\LaravelToken\commands\ClearTokenCommand;
 use Lahaxearnaud\LaravelToken\Generator\TokenGenerator;
 use Lahaxearnaud\LaravelToken\Repositories\TokenRepository;
 use Lahaxearnaud\LaravelToken\Security\TokenCrypt;
-use Request as Request;
 use Response as Response;
 use Route as Route;
 use Token as Token;
@@ -57,7 +53,7 @@ class LaravelTokenServiceProvider extends ServiceProvider
 
         Route::filter('token', function () use ($instance) {
             try {
-                $strToken = $instance->getTokenValueFromRequest();
+                $strToken = Token::getTokenValueFromRequest();
                 $strToken = Token::uncryptToken($strToken);
 
                 $token = Token::findByToken($strToken);
@@ -78,8 +74,7 @@ class LaravelTokenServiceProvider extends ServiceProvider
 
         Route::filter('token.auth', function () use ($instance) {
             try {
-                $strToken = $instance->getTokenValueFromRequest();
-
+                $strToken = Token::getTokenValueFromRequest();
                 $strToken = Token::uncryptToken($strToken);
 
                 $token = Token::findByToken($strToken);
@@ -131,34 +126,6 @@ class LaravelTokenServiceProvider extends ServiceProvider
     public function provides()
     {
         return array('token');
-    }
-
-    /**
-     * Get the token from the request. We try to get it from GET/POST then headers then cookies
-     *
-     * @author LAHAXE Arnaud <alahaxe@boursorama.fr>
-     *
-     * @return mixed
-     */
-    public function getTokenValueFromRequest()
-    {
-        $tokenFieldsName = Config::get('lahaxearnaud/laravel-token:tokenFieldName');
-
-        if (!is_string($tokenFieldsName)) {
-            $tokenFieldsName = 'token';
-        }
-
-        $token = Input::get($tokenFieldsName);
-
-        if (empty($token)) {
-            $token = Request::header($tokenFieldsName);
-        }
-
-        if (empty($token)) {
-            $token = Cookie::get($tokenFieldsName);
-        }
-
-        return $token;
     }
 }
 

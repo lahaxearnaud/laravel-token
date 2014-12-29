@@ -4,7 +4,10 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Lahaxearnaud\LaravelToken\Models\Token;
 use Lahaxearnaud\LaravelToken\Repositories\RepositoryInterface;
 use Lahaxearnaud\LaravelToken\Security\CryptInterface;
-
+use \Config as Config;
+use \Input as Input;
+use \Request as Request;
+use \Cookie as Cookie;
 /**
  * Class LaravelToken
  *
@@ -197,6 +200,34 @@ class LaravelToken
         \Event::fire('token.saved', array($token));
 
         return $result;
+    }
+
+    /**
+     * Get the token from the request. We try to get it from GET/POST then headers then cookies
+     *
+     * @author LAHAXE Arnaud <arnaud.lahaxe@gmail.com>
+     *
+     * @return mixed
+     */
+    public function getTokenValueFromRequest()
+    {
+        $tokenFieldsName = Config::get('lahaxearnaud/laravel-token:tokenFieldName');
+
+        if (!is_string($tokenFieldsName)) {
+            $tokenFieldsName = 'token';
+        }
+
+        $token = Input::get($tokenFieldsName);
+
+        if (empty($token)) {
+            $token = Request::header($tokenFieldsName);
+        }
+
+        if (empty($token)) {
+            $token = Cookie::get($tokenFieldsName);
+        }
+
+        return $token;
     }
 
     /**

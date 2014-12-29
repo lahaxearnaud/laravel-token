@@ -20,6 +20,9 @@ Laravel token
     + [Validate token](#validate-token)
     + [Route filter](#route-filter)
     + [Events](#events)
++ [Commands](#commands)
+    + [Commands](#commands)
+    + [Commands](#commands)
 + [API](#api)
     + [Security](#security)
     + [Creation](#creation)
@@ -100,7 +103,7 @@ If you use those functions the token is not burn. It can be use many times.
 For one shot usage token:
 
 ```
-    $tokenStr = Input::get('token');
+    $tokenStr = Token::getTokenValueFromRequest();
 
     /**
       * if the token is crypt do :
@@ -149,6 +152,44 @@ Authentification by token
     }));
 ```
 
+In order to use the authentification by token your class User need to implements ``Lahaxearnaud\LaravelToken\Models\UserTokenInterface``
+
+```
+<?php
+
+use Illuminate\Auth\UserTrait;
+use Illuminate\Auth\UserInterface;
+use Illuminate\Auth\Reminders\RemindableTrait;
+use Illuminate\Auth\Reminders\RemindableInterface;
+use Lahaxearnaud\LaravelToken\Models\UserTokenInterface;
+
+class User extends Eloquent implements UserInterface, RemindableInterface, UserTokenInterface {
+
+	use UserTrait, RemindableTrait;
+
+	/**
+	 * The database table used by the model.
+	 *
+	 * @var string
+	 */
+	protected $table = 'users';
+
+	/**
+	 * The attributes excluded from the model's JSON form.
+	 *
+	 * @var array
+	 */
+	protected $hidden = array('password', 'remember_token');
+
+    public function loggableByToken()
+    {
+        return true;
+    }
+}
+```
+The method ``loggableByToken`` is called when a user try to authentificate with a token.
+
+
 If an error occur on token validation a http error (``401``) is send to the browser. 
 
 
@@ -160,6 +201,11 @@ can change it by publishing and change the configuration:
 ```
 
 Then change the tokenFieldName ``config/packages/lahaxearnaud/laravel-token/config.php``.
+
+You can get the token instance via:
+```
+    Token::getCurrentToken();
+```
 
 ### Events
 
@@ -195,6 +241,19 @@ You can listen events:
     - parameters:
         - the token object
 
+## Commands
+    A new artisan command is added to your project in order to help you to clean your token table
+    
+    ### Delete expired tokens
+        Without any option the command delete all expired tokens.
+        ```
+            $ php artisan token:clean
+        ```
+    ### Truncate the table
+        If you specified ``--all`` the table will be truncate.
+        ```
+            $ php artisan token:clean -a
+        ```
 ## API
 
 ### Security
