@@ -40,9 +40,7 @@ class LaravelTokenServiceProvider extends ServiceProvider
     public function register()
     {
         $app = $this->app;
-
-        $instance = $this;
-
+        
         $app->bind('tokenrepository', function () {
             return new TokenRepository(new \Lahaxearnaud\LaravelToken\Models\Token(), new TokenGenerator());
         });
