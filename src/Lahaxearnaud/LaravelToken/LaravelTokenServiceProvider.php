@@ -1,15 +1,16 @@
 <?php namespace Lahaxearnaud\LaravelToken;
 
-use Event as Event;
+use \Event as Event;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\ServiceProvider;
 use Lahaxearnaud\LaravelToken\commands\ClearTokenCommand;
 use Lahaxearnaud\LaravelToken\Generator\TokenGenerator;
 use Lahaxearnaud\LaravelToken\Repositories\TokenRepository;
 use Lahaxearnaud\LaravelToken\Security\TokenCrypt;
-use Response as Response;
-use Route as Route;
-use Token as Token;
+use \Response as Response;
+use \Route as Route;
+use \Token as Token;
+use \Auth as Auth;
 
 class LaravelTokenServiceProvider extends ServiceProvider
 {
@@ -51,7 +52,7 @@ class LaravelTokenServiceProvider extends ServiceProvider
             return new LaravelToken($app->make('tokenrepository'), new TokenCrypt());
         });
 
-        Route::filter('token', function () use ($instance) {
+        Route::filter('token', function () {
             try {
                 $strToken = Token::getTokenValueFromRequest();
                 $strToken = Token::uncryptToken($strToken);
@@ -72,7 +73,7 @@ class LaravelTokenServiceProvider extends ServiceProvider
             }
         });
 
-        Route::filter('token.auth', function () use ($instance) {
+        Route::filter('token.auth', function () {
             try {
                 $strToken = Token::getTokenValueFromRequest();
                 $strToken = Token::uncryptToken($strToken);
