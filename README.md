@@ -5,7 +5,7 @@ Laravel token
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/2f9abd1c-42a6-4a80-88f4-e1687b1d361a/mini.png)](https://insight.sensiolabs.com/projects/2f9abd1c-42a6-4a80-88f4-e1687b1d361a)
 [![CodeClimat](https://d3s6mut3hikguw.cloudfront.net/github/lahaxearnaud/laravel-token/badges/gpa.svg)](https://codeclimate.com/github/lahaxearnaud/laravel-token)
 [![Test Coverage](https://codeclimate.com/github/lahaxearnaud/laravel-token/badges/coverage.svg)](https://codeclimate.com/github/lahaxearnaud/laravel-token)
-[![License](https://poser.pugx.org/leaphly/cart-bundle/license.svg)](https://github.com/lahaxearnaud/cook-bookmarks)
+[![License](https://poser.pugx.org/leaphly/cart-bundle/license.svg)](https://github.com/lahaxearnaud/laravel-token)
 
 
 ## Table of Contents
@@ -192,7 +192,7 @@ The method ``loggableByToken`` is called when a user try to authentificate with 
 If an error occur on token validation a http error (``401``) is send to the browser. 
 
 
-By default you can send your token in parameter, cookie or header. The default name of the field is ``token`` but you 
+By default you can send your token in parameter or header. The default name of the field is ``token`` but you 
 can change it by publishing and change the configuration:
 
 ```bash

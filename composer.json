@@ -29,6 +29,7 @@
         },
         "classmap": [
             "tests/TestCase.php",
+            "tests/models",
             "src/Lahaxearnaud/LaravelToken",
             "src/migrations"
         ]

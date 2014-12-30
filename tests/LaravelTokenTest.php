@@ -70,9 +70,9 @@ class LaravelTokenTest extends TestCase
     {
         $token = App::make('token');
 
-        $obj = $token->create(1);
+        $obj = $token->create(3);
 
-        $result = $token->findByUser(1);
+        $result = $token->findByUser(3);
         $this->assertInstanceOf('\Illuminate\Support\Collection', $result);
         $this->assertEquals(1, count($result));
     }

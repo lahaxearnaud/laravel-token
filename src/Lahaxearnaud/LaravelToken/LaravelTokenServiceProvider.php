@@ -9,7 +9,6 @@ use Lahaxearnaud\LaravelToken\Repositories\TokenRepository;
 use Lahaxearnaud\LaravelToken\Security\TokenCrypt;
 use \Response as Response;
 use \Route as Route;
-use \Token as Token;
 use \Auth as Auth;
 
 class LaravelTokenServiceProvider extends ServiceProvider
@@ -39,27 +38,28 @@ class LaravelTokenServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $app = $this->app;
-        
-        $app->bind('tokenrepository', function () {
+
+        $this->app->bind('tokenrepository', function () {
             return new TokenRepository(new \Lahaxearnaud\LaravelToken\Models\Token(), new TokenGenerator());
         });
 
+        $app = $this->app;
 
-        $app->bind('token', function () use ($app) {
+        $this->app->bind('token', function () use ($app) {
             return new LaravelToken($app->make('tokenrepository'), new TokenCrypt());
         });
 
-        Route::filter('token', function () {
+        Route::filter('token', function () use ($app) {
+            $tokenManager = $app->make('token');
+
+            $strToken = $tokenManager->getTokenValueFromRequest();
+            $strToken = $tokenManager->uncryptToken($strToken);
             try {
-                $strToken = Token::getTokenValueFromRequest();
-                $strToken = Token::uncryptToken($strToken);
+                $token = $tokenManager->findByToken($strToken);
 
-                $token = Token::findByToken($strToken);
+                $tokenManager->setCurrentToken($token);
 
-                Token::setCurrentToken($token);
-
-                if (!Token::isValid($token)) {
+                if (!$tokenManager->isValid($token)) {
 
                     return Response::make('Unauthorized (Token not valid)', 401);
                 }
@@ -71,16 +71,17 @@ class LaravelTokenServiceProvider extends ServiceProvider
             }
         });
 
-        Route::filter('token.auth', function () {
+        Route::filter('token.auth', function () use ($app) {
+            $tokenManager = $app->make('token');
+
+            $strToken = $tokenManager->getTokenValueFromRequest();
+            $strToken = $tokenManager->uncryptToken($strToken);
             try {
-                $strToken = Token::getTokenValueFromRequest();
-                $strToken = Token::uncryptToken($strToken);
+                $token = $tokenManager->findByToken($strToken);
 
-                $token = Token::findByToken($strToken);
+                $tokenManager->setCurrentToken($token);
 
-                Token::setCurrentToken($token);
-
-                if (!Token::isValid($token)) {
+                if (!$tokenManager->isValid($token)) {
 
                     return Response::make('Unauthorized (Token not valid)', 401);
                 }
