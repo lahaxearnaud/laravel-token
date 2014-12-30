@@ -31,6 +31,6 @@ class User extends Model implements UserInterface, RemindableInterface, UserToke
      */
     public function loggableByToken ()
     {
-        return true;
+        return $this->id == 1;
     }
 }

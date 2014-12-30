@@ -7,7 +7,7 @@ use Lahaxearnaud\LaravelToken\Security\CryptInterface;
 use \Config as Config;
 use \Input as Input;
 use \Request as Request;
-use \Cookie as Cookie;
+
 /**
  * Class LaravelToken
  *
@@ -203,7 +203,7 @@ class LaravelToken
     }
 
     /**
-     * Get the token from the request. We try to get it from GET/POST then headers then cookies
+     * Get the token from the request. We try to get it from GET/POST then headers
      *
      * @author LAHAXE Arnaud <arnaud.lahaxe@gmail.com>
      *
@@ -221,10 +221,6 @@ class LaravelToken
 
         if (empty($token)) {
             $token = Request::header($tokenFieldsName);
-        }
-
-        if (empty($token)) {
-            $token = Cookie::get($tokenFieldsName);
         }
 
         return $token;

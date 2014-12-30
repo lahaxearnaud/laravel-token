@@ -55,7 +55,6 @@ class LaravelTokenServiceProvider extends ServiceProvider
 
             $strToken = $tokenManager->getTokenValueFromRequest();
             $strToken = $tokenManager->uncryptToken($strToken);
-
             try {
                 $token = $tokenManager->findByToken($strToken);
 
