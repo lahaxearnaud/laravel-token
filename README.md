@@ -36,7 +36,7 @@ Laravel token
 ```json
 {
     "require": {
-        "lahaxearnaud/laravel-token": "~0.1"
+        "lahaxearnaud/laravel-token": "~0.3"
     }
 }
 ```
@@ -327,6 +327,7 @@ Find all token for an user
 ```
 
 ## Todo
-
+- exceptions for each error type
+- changelogs file
 - token type
 - config to allow only one token by user and type
