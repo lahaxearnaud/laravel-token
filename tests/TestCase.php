@@ -39,12 +39,19 @@ class TestCase extends TestBenchTestCase
         ));
         $app['config']->set('app.key', md5_file(__FILE__));
 
-        Route::get('/token/auth', array('before' => 'token.auth', function () {
-            // we don't need content
+        $token = App::make('token');
+
+        Route::get('/token/auth', array('before' => 'token.auth', function () use ($token) {
+            return Response::json(array(
+                'token' => $token->getCurrentToken(),
+                'user'  => \Auth::user()
+            ));
         }));
 
-        Route::get('/token/simple', array('before' => 'token', function () {
-            // we don't need content
+        Route::get('/token/simple', array('before' => 'token', function () use ($token) {
+            return Response::json(array(
+                'token' => $token->getCurrentToken()
+            ));
         }));
 
         Route::enableFilters();
@@ -84,7 +91,13 @@ class TestCase extends TestBenchTestCase
         $token->persist($obj);
 
         $token->create(); // 4 token without user
+    }
 
+    protected function tearDown()
+    {
+        parent::tearDown();
 
+        $migration = new CreateTokensTable();
+        $migration->down();
     }
 }

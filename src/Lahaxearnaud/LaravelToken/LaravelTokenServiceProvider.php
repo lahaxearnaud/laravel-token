@@ -45,7 +45,7 @@ class LaravelTokenServiceProvider extends ServiceProvider
 
         $app = $this->app;
 
-        $this->app->bind('token', function () use ($app) {
+        $this->app->singleton('token', function () use ($app) {
             return new LaravelToken($app->make('tokenrepository'), new TokenCrypt());
         });
 

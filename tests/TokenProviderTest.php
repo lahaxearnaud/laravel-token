@@ -95,16 +95,23 @@ class TokenProviderTest extends TestCase {
     {
         $token = App::make('token');
         $obj = $token->find(1);
-        $this->call('GET', '/token/simple', ['token' => $token->cryptToken($obj->token)]);
+        $response = $this->call('GET', '/token/simple', ['token' => $token->cryptToken($obj->token)]);
         $this->assertResponseStatus(200);
+        $this->assertJson($response->getContent());
+        $response = json_decode($response->getContent());
+        $this->assertEquals(1, $response->token->id);
     }
 
     public function testAuthTokenOK()
     {
         $token = App::make('token');
         $obj = $token->find(1);
-        $this->call('GET', '/token/auth', ['token' => $token->cryptToken($obj->token)]);
+        $response =  $this->call('GET', '/token/auth', ['token' => $token->cryptToken($obj->token)]);
         $this->assertResponseStatus(200);
+        $this->assertJson($response->getContent());
+        $response = json_decode($response->getContent());
+        $this->assertEquals(1, $response->user->id);
+        $this->assertEquals(1, $response->token->id);
     }
 
     /**
