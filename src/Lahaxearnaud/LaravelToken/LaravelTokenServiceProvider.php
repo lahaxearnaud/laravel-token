@@ -9,7 +9,6 @@ use Lahaxearnaud\LaravelToken\Repositories\TokenRepository;
 use Lahaxearnaud\LaravelToken\Security\TokenCrypt;
 use \Response as Response;
 use \Route as Route;
-use \Token as Token;
 use \Auth as Auth;
 
 class LaravelTokenServiceProvider extends ServiceProvider
