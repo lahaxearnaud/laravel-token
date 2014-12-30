@@ -44,13 +44,10 @@ class ClearTokenCommand extends Command
     public function fire()
     {
         if($this->option('all')) {
-            \DB::statement("SET foreign_key_checks=0");
             Token::truncate();
-            \DB::statement("SET foreign_key_checks=1");
-
             $this->info("All tokens deleted");
         } else {
-            Token::where('expire_at', '<', Carbon::now()->timestamp)->delete();
+            Token::where('expire_at', '<', date('Y-m-d H:i:s'))->delete();
             $this->info("All expired tokens removed");
         }
     }
