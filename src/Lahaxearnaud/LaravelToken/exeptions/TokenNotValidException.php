@@ -9,10 +9,12 @@
 namespace Lahaxearnaud\LaravelToken\exeptions;
 
 
+use Lahaxearnaud\LaravelToken\Models\Token;
+
 class TokenNotValidException extends TokenException {
 
-    public function __construct ($message = "", $code = 0, Exception $previous = NULL)
+    public function __construct (Token $token, \Exception $previous = NULL)
     {
-        parent::__construct($message, $code, $previous);
+        parent::__construct('Not a valid token', 0, $previous);
     }
 }

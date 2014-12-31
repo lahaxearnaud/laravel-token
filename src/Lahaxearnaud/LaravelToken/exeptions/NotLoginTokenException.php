@@ -9,10 +9,14 @@
 namespace Lahaxearnaud\LaravelToken\exeptions;
 
 
+use Lahaxearnaud\LaravelToken\Models\Token;
+
 class NotLoginTokenException extends TokenException {
 
-    public function __construct ($message = "", $code = 0, Exception $previous = NULL)
+    public function __construct (Token $token, Exception $previous = NULL)
     {
-        parent::__construct($message, $code, $previous);
+        \Event::fire('token.notLoginToken', array($token));
+
+        parent::__construct('Not a login token', 0, $previous);
     }
 }

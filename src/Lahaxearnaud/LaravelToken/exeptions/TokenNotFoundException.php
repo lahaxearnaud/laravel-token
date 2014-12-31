@@ -13,6 +13,8 @@ class TokenNotFoundException extends TokenException {
 
     public function __construct (\Exception $previous = NULL)
     {
-        parent::__construct("", 0, $previous);
+        \Event::fire('token.notFound', array($previous));
+
+        parent::__construct("Token not found", 0, $previous);
     }
 }

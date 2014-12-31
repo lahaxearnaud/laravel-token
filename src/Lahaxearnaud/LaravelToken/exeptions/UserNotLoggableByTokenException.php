@@ -9,10 +9,14 @@
 namespace Lahaxearnaud\LaravelToken\exeptions;
 
 
+use Lahaxearnaud\LaravelToken\Models\Token;
+
 class UserNotLoggableByTokenException extends TokenException {
 
-    public function __construct ($message = "", $code = 0, Exception $previous = NULL)
+    public function __construct (Token $token, \User $user, \Exception $previous = NULL)
     {
-        parent::__construct($message, $code, $previous);
+        \Event::fire('token.notLoggableUser', array($token, $user));
+
+        parent::__construct("User can't logged in with a token", 0, $previous);
     }
 }

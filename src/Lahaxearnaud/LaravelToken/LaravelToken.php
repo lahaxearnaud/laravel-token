@@ -130,7 +130,7 @@ class LaravelToken
             return $this->repository->find($id);
         } catch (ModelNotFoundException $e) {
 
-            throw new TokenNotFoundException;
+            throw new TokenNotFoundException($e);
         }
     }
 
@@ -147,7 +147,7 @@ class LaravelToken
             return $this->repository->findByToken($token, $userId);
         } catch (ModelNotFoundException $e) {
 
-            throw new TokenNotFoundException;
+            throw new TokenNotFoundException($e);
         }
     }
 

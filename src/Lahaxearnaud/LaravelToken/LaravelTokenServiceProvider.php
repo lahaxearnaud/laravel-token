@@ -5,10 +5,8 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\ServiceProvider;
 use Lahaxearnaud\LaravelToken\commands\ClearTokenCommand;
 use Lahaxearnaud\LaravelToken\exeptions\NotLoginTokenException;
-use Lahaxearnaud\LaravelToken\Exeptions\TokenException;
 use Lahaxearnaud\LaravelToken\exeptions\TokenNotFoundException;
 use Lahaxearnaud\LaravelToken\exeptions\TokenNotValidException;
-use Lahaxearnaud\LaravelToken\exeptions\UserNotLoggableByToken;
 use Lahaxearnaud\LaravelToken\exeptions\UserNotLoggableByTokenException;
 use Lahaxearnaud\LaravelToken\Generator\TokenGenerator;
 use Lahaxearnaud\LaravelToken\Repositories\TokenRepository;
@@ -67,11 +65,10 @@ class LaravelTokenServiceProvider extends ServiceProvider
 
                 if (!$tokenManager->isValid($token)) {
 
-                    throw new TokenNotValidException;
+                    throw new TokenNotValidException($token);
                 }
 
             } catch (ModelNotFoundException $e) {
-                Event::fire('token.notFound', array($e, $strToken));
 
                 throw new TokenNotFoundException($e);
             }
@@ -89,15 +86,14 @@ class LaravelTokenServiceProvider extends ServiceProvider
 
                 if (!$tokenManager->isValid($token)) {
 
-                    throw new TokenNotValidException;
+                    throw new TokenNotValidException($token);
                 }
 
                 $user = $token->user;
 
                 if ($user === null) {
-                    Event::fire('token.notLoginToken', array($token));
 
-                    throw new NotLoginTokenException;
+                    throw new NotLoginTokenException($token);
                 }
 
                 if ($user->loggableByToken()) {
@@ -105,13 +101,11 @@ class LaravelTokenServiceProvider extends ServiceProvider
 
                     Event::fire('token.logged', array($token, $user));
                 } else {
-                    Event::fire('token.notLoggableUser', array($token, $user));
 
-                    throw new UserNotLoggableByTokenException;
+                    throw new UserNotLoggableByTokenException($token, $user);
                 }
 
             } catch (ModelNotFoundException $e) {
-                Event::fire('token.notFound', array($e, $strToken));
 
                 throw new TokenNotFoundException($e);
             }
