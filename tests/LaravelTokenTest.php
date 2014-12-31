@@ -37,7 +37,7 @@ class LaravelTokenTest extends TestCase
     }
 
     /**
-     * @expectedException \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @expectedException \Lahaxearnaud\LaravelToken\exeptions\TokenNotFoundException
      */
     public function testfindNotFound ()
     {
@@ -57,7 +57,7 @@ class LaravelTokenTest extends TestCase
     }
 
     /**
-     * @expectedException \Illuminate\Database\Eloquent\ModelNotFoundException
+     * @expectedException \Lahaxearnaud\LaravelToken\exeptions\TokenNotFoundException
      */
     public function testfindByTokenNotFound ()
     {
@@ -112,6 +112,9 @@ class LaravelTokenTest extends TestCase
         $this->assertTrue($token->isValidCryptToken($token->cryptToken($obj->token), 1));
     }
 
+    /**
+     * @expectedException \Lahaxearnaud\LaravelToken\exeptions\TokenNotFoundException
+     */
     public function testValidCryptTokenNotFound()
     {
         $token = App::make('token');
@@ -139,6 +142,9 @@ class LaravelTokenTest extends TestCase
         $this->assertTrue($token->isValidToken($obj->token, 1));
     }
 
+    /**
+     * @expectedException \Lahaxearnaud\LaravelToken\exeptions\TokenNotFoundException
+     */
     public function testValidUnCryptTokenNotFound()
     {
         $token = App::make('token');

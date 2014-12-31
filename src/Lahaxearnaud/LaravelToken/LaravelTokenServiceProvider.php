@@ -4,6 +4,10 @@ use \Event as Event;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\ServiceProvider;
 use Lahaxearnaud\LaravelToken\commands\ClearTokenCommand;
+use Lahaxearnaud\LaravelToken\exeptions\NotLoginTokenException;
+use Lahaxearnaud\LaravelToken\exeptions\TokenNotFoundException;
+use Lahaxearnaud\LaravelToken\exeptions\TokenNotValidException;
+use Lahaxearnaud\LaravelToken\exeptions\UserNotLoggableByTokenException;
 use Lahaxearnaud\LaravelToken\Generator\TokenGenerator;
 use Lahaxearnaud\LaravelToken\Repositories\TokenRepository;
 use Lahaxearnaud\LaravelToken\Security\TokenCrypt;
@@ -61,13 +65,12 @@ class LaravelTokenServiceProvider extends ServiceProvider
 
                 if (!$tokenManager->isValid($token)) {
 
-                    return Response::make('Unauthorized (Token not valid)', 401);
+                    throw new TokenNotValidException($token);
                 }
 
             } catch (ModelNotFoundException $e) {
-                Event::fire('token.notFound', array($e, $strToken));
 
-                return Response::make('Unauthorized (Token not found)', 401);
+                throw new TokenNotFoundException($e);
             }
         });
 
@@ -83,15 +86,14 @@ class LaravelTokenServiceProvider extends ServiceProvider
 
                 if (!$tokenManager->isValid($token)) {
 
-                    return Response::make('Unauthorized (Token not valid)', 401);
+                    throw new TokenNotValidException($token);
                 }
 
                 $user = $token->user;
 
                 if ($user === null) {
-                    Event::fire('token.notLoginToken', array($token));
 
-                    return Response::make('Unauthorized (Not a login Token)', 401);
+                    throw new NotLoginTokenException($token);
                 }
 
                 if ($user->loggableByToken()) {
@@ -99,15 +101,13 @@ class LaravelTokenServiceProvider extends ServiceProvider
 
                     Event::fire('token.logged', array($token, $user));
                 } else {
-                    Event::fire('token.notLoggableUser', array($token, $user));
 
-                    return Response::make('Unauthorized (Logged by token forbidden)', 401);
+                    throw new UserNotLoggableByTokenException($token, $user);
                 }
 
             } catch (ModelNotFoundException $e) {
-                Event::fire('token.notFound', array($e, $strToken));
 
-                return Response::make('Unauthorized (Token not found)', 401);
+                throw new TokenNotFoundException($e);
             }
         });
 

@@ -1,6 +1,7 @@
 <?php namespace Lahaxearnaud\LaravelToken;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Lahaxearnaud\LaravelToken\exeptions\TokenNotFoundException;
 use Lahaxearnaud\LaravelToken\Models\Token;
 use Lahaxearnaud\LaravelToken\Repositories\RepositoryInterface;
 use Lahaxearnaud\LaravelToken\Security\CryptInterface;
@@ -66,7 +67,7 @@ class LaravelToken
             return $this->isValid($token);
         } catch (ModelNotFoundException $e) {
 
-            return FALSE;
+            throw new TokenNotFoundException($e);
         }
     }
 
@@ -125,8 +126,12 @@ class LaravelToken
      */
     public function find ($id)
     {
+        try {
+            return $this->repository->find($id);
+        } catch (ModelNotFoundException $e) {
 
-        return $this->repository->find($id);
+            throw new TokenNotFoundException($e);
+        }
     }
 
     /**
@@ -138,8 +143,12 @@ class LaravelToken
      */
     public function findByToken ($token, $userId = NULL)
     {
+        try {
+            return $this->repository->findByToken($token, $userId);
+        } catch (ModelNotFoundException $e) {
 
-        return $this->repository->findByToken($token, $userId);
+            throw new TokenNotFoundException($e);
+        }
     }
 
     /**
