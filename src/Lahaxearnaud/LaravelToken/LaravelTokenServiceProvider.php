@@ -11,7 +11,6 @@ use Lahaxearnaud\LaravelToken\exeptions\UserNotLoggableByTokenException;
 use Lahaxearnaud\LaravelToken\Generator\TokenGenerator;
 use Lahaxearnaud\LaravelToken\Repositories\TokenRepository;
 use Lahaxearnaud\LaravelToken\Security\TokenCrypt;
-use \Response as Response;
 use \Route as Route;
 use \Auth as Auth;
 
