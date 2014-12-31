@@ -276,21 +276,21 @@ You can listen events:
             $ php artisan token:clean
         ```
     ### Truncate the table
-        If you specified ``--all`` the table will be truncate.
+        If you specified ``--all`` all token will be deleted
         ```bash
-            $ php artisan token:clean -a
+            $ php artisan token:clean -all
         ```
 ## API
 
 ### Security
 
-Crypt a string token
+Crypt a string token in order to get a public token
 
 ```php
     Token::cryptToken ($uncrypt)
 ```
 
-Uncrypt a string token
+Uncrypt a public token in order to get the private token
 
 ```php
     Token::uncryptToken ($crypt)
