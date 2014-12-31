@@ -13,7 +13,7 @@ use Lahaxearnaud\LaravelToken\Models\Token;
 
 class NotLoginTokenException extends TokenException {
 
-    public function __construct (Token $token, Exception $previous = NULL)
+    public function __construct (Token $token, \Exception $previous = NULL)
     {
         \Event::fire('token.notLoginToken', array($token));
 

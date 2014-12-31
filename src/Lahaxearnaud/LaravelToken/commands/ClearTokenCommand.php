@@ -8,7 +8,6 @@
 
 namespace Lahaxearnaud\LaravelToken\commands;
 
-use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Lahaxearnaud\LaravelToken\Models\Token;
 use Symfony\Component\Console\Input\InputOption;
@@ -44,7 +43,7 @@ class ClearTokenCommand extends Command
     public function fire()
     {
         if($this->option('all')) {
-            Token::truncate();
+            Token::where([])->delete();
             $this->info("All tokens deleted");
         } else {
             Token::where('expire_at', '<', date('Y-m-d H:i:s'))->delete();
