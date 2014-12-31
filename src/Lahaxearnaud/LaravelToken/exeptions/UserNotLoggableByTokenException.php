@@ -9,7 +9,7 @@
 namespace Lahaxearnaud\LaravelToken\exeptions;
 
 
-class UserNotLoggableByToken extends TokenException {
+class UserNotLoggableByTokenException extends TokenException {
 
     public function __construct ($message = "", $code = 0, Exception $previous = NULL)
     {

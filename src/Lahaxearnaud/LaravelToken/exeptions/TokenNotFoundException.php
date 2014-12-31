@@ -11,8 +11,8 @@ namespace Lahaxearnaud\LaravelToken\exeptions;
 
 class TokenNotFoundException extends TokenException {
 
-    public function __construct ($message = "", $code = 0, Exception $previous = NULL)
+    public function __construct (\Exception $previous = NULL)
     {
-        parent::__construct($message, $code, $previous);
+        parent::__construct("", 0, $previous);
     }
 }

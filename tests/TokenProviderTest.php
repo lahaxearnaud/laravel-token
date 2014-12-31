@@ -10,82 +10,94 @@ class TokenProviderTest extends TestCase {
 
     /**
      * No Token
+     * @expectedException \Lahaxearnaud\LaravelToken\exeptions\TokenNotFoundException
      */
     public function testAuthByTokenKO()
     {
         $this->call('GET', '/token/auth');
-
-
-        $this->assertResponseStatus(401);
     }
 
-
+    /**
+     * @author LAHAXE Arnaud <alahaxe@boursorama.fr>
+     *
+     * @expectedException \Lahaxearnaud\LaravelToken\exeptions\TokenNotFoundException
+     */
     public function testTokenKO()
     {
         $this->call('GET', '/token/simple');
-
-        $this->assertResponseStatus(401);
     }
 
     /**
      * Dummy Token
      */
+
+    /**
+     * @author LAHAXE Arnaud <alahaxe@boursorama.fr>
+     *
+     * @expectedException \Lahaxearnaud\LaravelToken\exeptions\TokenNotFoundException
+     */
     public function testAuthByTokenDummyKO()
     {
         $this->call('GET', '/token/auth', ['token' => 'DUMMY']);
-
-
-        $this->assertResponseStatus(401);
     }
 
-
+    /**
+     * @author LAHAXE Arnaud <alahaxe@boursorama.fr>
+     *
+     * @expectedException \Lahaxearnaud\LaravelToken\exeptions\TokenNotFoundException
+     */
     public function testTokenDummyKO()
     {
         $this->call('GET', '/token/simple', ['token' => 'DUMMY']);
-
-        $this->assertResponseStatus(401);
     }
 
 
     /**
-     * Expire
+     * @author LAHAXE Arnaud <alahaxe@boursorama.fr>
+     *
+     * @expectedException \Lahaxearnaud\LaravelToken\exeptions\TokenNotValidException
      */
     public function testTokenExpireKO()
     {
         $token = App::make('token');
         $obj = $token->find(3);
         $this->call('GET', '/token/simple', ['token' => $token->cryptToken($obj->token)]);
-        $this->assertResponseStatus(401);
     }
 
+    /**
+     * @author LAHAXE Arnaud <alahaxe@boursorama.fr>
+     *
+     * @expectedException \Lahaxearnaud\LaravelToken\exeptions\TokenNotValidException
+     */
     public function testAuthTokenExpireKO()
     {
         $token = App::make('token');
         $obj = $token->find(3);
         $this->call('GET', '/token/auth', ['token' => $token->cryptToken($obj->token)]);
-        $this->assertResponseStatus(401);
     }
 
     /**
-     * Not login token
+     * @author LAHAXE Arnaud <alahaxe@boursorama.fr>
+     *
+     * @expectedException \Lahaxearnaud\LaravelToken\exeptions\NotLoginTokenException
      */
     public function testAuthNotLoginTokenKO()
     {
         $token = App::make('token');
         $obj = $token->find(4);
         $this->call('GET', '/token/auth', ['token' => $token->cryptToken($obj->token)]);
-        $this->assertResponseStatus(401);
     }
 
     /**
-     * Not loggable by token
+     * @author LAHAXE Arnaud <alahaxe@boursorama.fr>
+     *
+     * @expectedException \Lahaxearnaud\LaravelToken\exeptions\UserNotLoggableByTokenException
      */
     public function testAuthNotLoggableKO()
     {
         $token = App::make('token');
         $obj = $token->find(2);
         $this->call('GET', '/token/auth', ['token' => $token->cryptToken($obj->token)]);
-        $this->assertResponseStatus(401);
     }
 
     /**

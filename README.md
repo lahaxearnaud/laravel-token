@@ -19,6 +19,7 @@ Laravel token
     + [Crypt token](#crypt-token)
     + [Validate token](#validate-token)
     + [Route filter](#route-filter)
+    + [Exceptions](#exceptions)
     + [Events](#events)
 + [Commands](#commands)
     + [Delete expired tokens](#delete-expired-tokens)
@@ -36,7 +37,7 @@ Laravel token
 ```json
 {
     "require": {
-        "lahaxearnaud/laravel-token": "~0.1"
+        "lahaxearnaud/laravel-token": "~0.4"
     }
 }
 ```
@@ -125,7 +126,7 @@ For one shot usage token:
         } else {
             $tokenValid = false;
         }
-    } catch (ModelNotFoundException $e) {
+    } catch (TokenNotFoundException $e) {
         $tokenValid = false;
     }
 
@@ -189,7 +190,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface, UserT
 The method ``loggableByToken`` is called when a user try to authentificate with a token.
 
 
-If an error occur on token validation a http error (``401``) is send to the browser. 
+If an error occur on token validation a TokenExeption is throw, please go to [Exceptions](#exceptions) section. 
 
 
 By default you can send your token in parameter or header. The default name of the field is ``token`` but you 
@@ -204,6 +205,32 @@ Then change the tokenFieldName ``config/packages/lahaxearnaud/laravel-token/conf
 You can get the token instance via:
 ```php
     Token::getCurrentToken();
+```
+
+### Exceptions
+
+If you use route filter you need to handle some Exceptions. Add the following error handler in you ``filter.php`` to catch them.
+This is basic example, change the behavior to fit your needs (redirect, log...).
+
+```php
+    App::error(function(\Lahaxearnaud\LaravelToken\exeptions\TokenException $exception)
+    {
+        if($exception instanceof \Lahaxearnaud\LaravelToken\exeptions\TokenNotFoundException) {
+            return \Response::make('Unauthorized (Not found)', 401);
+        }
+
+        if($exception instanceof \Lahaxearnaud\LaravelToken\exeptions\TokenNotValidException) {
+            return \Response::make('Unauthorized (Not valid token)', 401);
+        }
+
+        if($exception instanceof \Lahaxearnaud\LaravelToken\exeptions\UserNotLoggableByTokenException) {
+            return \Response::make('Unauthorized (Not loggable by token)', 401);
+        }
+
+        if($exception instanceof \Lahaxearnaud\LaravelToken\exeptions\NotLoginTokenException) {
+            return \Response::make('Unauthorized (Not login token)', 401);
+        }
+    });
 ```
 
 ### Events
