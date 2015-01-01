@@ -354,6 +354,5 @@ Find all token for an user
 ```
 
 ## Todo
-- changelogs file
 - token type
 - config to allow only one token by user and type
