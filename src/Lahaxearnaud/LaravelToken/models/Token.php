@@ -24,7 +24,7 @@ class Token extends Model
     /**
      * Get the post's author.
      *
-     * @return User
+     * @return \User
      */
     public function user()
     {

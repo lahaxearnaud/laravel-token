@@ -41,7 +41,7 @@ class TokenRepository implements RepositoryInterface {
 		$token->token = $this->generator->generateToken($length);
 		$token->user_id = $userId;
 		$token->expire_at = time() + $lifetime;
-		$this->login = $allowLogin;
+		$token->login = $allowLogin;
 
 		return $token;
 	}
