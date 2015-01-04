@@ -37,7 +37,7 @@ Laravel token
 ```json
 {
     "require": {
-        "lahaxearnaud/laravel-token": "~0.4"
+        "lahaxearnaud/laravel-token": "~0.5"
     }
 }
 ```
@@ -71,15 +71,21 @@ Laravel token
 ### Create token
 
 ```php
-    $token = Token::create($userID);
+    $token = Token::create($userID, $allowLogin);
 ```
+
+If ``$allowLogin`` is set to true the token can be use to authentification via route filter.
+
 
 ### Crypt token
 
 ```php
-    $token = Token::create($userID);
+    $token = Token::create($userID, $allowLogin);
     $cryptToken = Token::cryptToken($token->token);
 ```
+
+If ``$allowLogin`` is set to true the token can be use to authentification via route filter.
+
 
 ### Validate token
 
@@ -145,7 +151,9 @@ Simple token protection:
     }));
 ```
 
-Authentification by token
+Authentification by token:
+
+The token used for an authentification must be a login token, pleaserefer to the token creation section
 
 ```php
     Route::get('/login-by-token', array('before' => 'token.auth', function () {
@@ -301,9 +309,10 @@ Uncrypt a public token in order to get the private token
 Create a Token instance (directly saved in database)
 
 ```php
-    Token::create ($userId, $lifetime = 3600, $length = 100)
+    Token::create ($userId, $allowLogin = false, $lifetime = 3600, $length = 100)
 ```
 
+If ``$allowLogin`` is set to true the token can be use to authentification via route filter.
 
 ### Deletion
 
