@@ -15,6 +15,7 @@ class CreateTokensTable extends Migration {
 			$table->increments('id');
 			$table->string('token', 128)->unique();
 			$table->integer('user_id')->unsigned()->index()->nullable();
+			$table->boolean('login')->default(false);
 			$table->timestamp('expire_at');
 			$table->timestamps();
 		});

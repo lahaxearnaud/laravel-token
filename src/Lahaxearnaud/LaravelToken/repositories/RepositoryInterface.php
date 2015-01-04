@@ -15,12 +15,13 @@ interface RepositoryInterface {
 	 * Create a token
 	 *
 	 * @param  integer  $userId   user id
+	 * @param  boolean  $allowLogin   is token usable for login
 	 * @param  integer $lifetime  lifetime in second
 	 * @param  integer $length    length of the token
 	 *
 	 * @return Token              instance of token
 	 */
-	public function create($userId, $lifetime = 3600, $length = 50);
+	public function create($userId, $allowLogin = false, $lifetime = 3600, $length = 50);
 
 	/**
 	 * returns the model found

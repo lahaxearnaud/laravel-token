@@ -30,16 +30,18 @@ class TokenRepository implements RepositoryInterface {
 	 * Create a token
 	 *
 	 * @param  integer  $userId   user id
+	 * @param  boolean  $allowLogin   is token usable for login
 	 * @param  integer $lifetime  lifetime in second
 	 * @param  integer $length    length of the token
 	 *
 	 * @return Token              instance of token
 	 */
-	public function create($userId = null, $lifetime = 3600, $length = 50) {
+	public function create($userId = null, $allowLogin = false, $lifetime = 3600, $length = 50) {
 		$token = new Token();
 		$token->token = $this->generator->generateToken($length);
 		$token->user_id = $userId;
 		$token->expire_at = time() + $lifetime;
+		$token->login = $allowLogin;
 
 		return $token;
 	}
