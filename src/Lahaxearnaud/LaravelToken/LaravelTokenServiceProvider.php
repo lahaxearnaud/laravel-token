@@ -90,7 +90,7 @@ class LaravelTokenServiceProvider extends ServiceProvider
 
                 $user = $token->user;
 
-                if ($user === null) {
+                if ($user === null || !$token->login) {
 
                     throw new NotLoginTokenException($token);
                 }

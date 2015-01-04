@@ -83,9 +83,9 @@ class TestCase extends TestBenchTestCase
         $user->save();
 
         $token = App::make('token');
-        $token->create(1, 7200); // 1 OK
-        $token->create(2, 7200); // 2 Not loggable by token
-        $token->create(1, 7200); // 3 Expired
+        $token->create(1, true, 7200); // 1 OK
+        $token->create(2, false, 7200); // 2 Not loggable by token
+        $token->create(1, false, 7200); // 3 Expired
         $obj = $token->find(3);
         $obj->expire_at = time() - 3600;
         $token->persist($obj);

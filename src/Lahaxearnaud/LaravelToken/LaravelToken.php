@@ -97,18 +97,19 @@ class LaravelToken
 
     /**
      * @param $userId
+     * @param $allowLogin
      * @param int $lifetime
      * @param int $length
      *
      * @author LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
      * @return Token
      */
-    public function create ($userId = NULL, $lifetime = 3600, $length = 100)
+    public function create ($userId = NULL, $allowLogin = false, $lifetime = 3600, $length = 100)
     {
         $token      = NULL;
 
         do {
-            $token = $this->repository->create($userId, $lifetime, $length);
+            $token = $this->repository->create($userId, $allowLogin, $lifetime, $length);
         } while ($this->repository->exists($token->token));
 
         \Event::fire('token.created', array($token));
