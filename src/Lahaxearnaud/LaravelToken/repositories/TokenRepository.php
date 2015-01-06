@@ -67,7 +67,7 @@ class TokenRepository implements RepositoryInterface {
 	 */
 	public function findByUser($userId) {
 
-		return $this->model->where('user_id', $userId)->get();
+		return $this->model->whereUserId($userId)->get();
 	}
 
 	/**
@@ -79,10 +79,10 @@ class TokenRepository implements RepositoryInterface {
 	 */
 	public function findByToken($token, $userId = null) {
 
-        $query = $this->model->where('token', $token);
+        $query = $this->model->whereToken($token);
 
         if($userId !== null) {
-            $query->where('user_id', $userId);
+            $query->whereUserId($userId);
         }
 
         return $query->firstOrFail();
@@ -110,7 +110,7 @@ class TokenRepository implements RepositoryInterface {
 
 	public function exists($tokenStr) {
 
-		return $this->model->where('token', $tokenStr)->count() > 0;
+		return $this->model->whereToken($tokenStr)->count() > 0;
 	}
 
 	/**

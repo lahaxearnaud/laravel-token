@@ -13,7 +13,14 @@ use Illuminate\Database\Eloquent\Model;
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property \Carbon\Carbon $expire_at
- * @property-read \User     $author
+ * @property-read \User $user
+ * @method static \Illuminate\Database\Query\Builder|\Lahaxearnaud\LaravelToken\Models\Token whereId($value) 
+ * @method static \Illuminate\Database\Query\Builder|\Lahaxearnaud\LaravelToken\Models\Token whereToken($value) 
+ * @method static \Illuminate\Database\Query\Builder|\Lahaxearnaud\LaravelToken\Models\Token whereUserId($value) 
+ * @method static \Illuminate\Database\Query\Builder|\Lahaxearnaud\LaravelToken\Models\Token whereExpireAt($value) 
+ * @method static \Illuminate\Database\Query\Builder|\Lahaxearnaud\LaravelToken\Models\Token whereCreatedAt($value) 
+ * @method static \Illuminate\Database\Query\Builder|\Lahaxearnaud\LaravelToken\Models\Token whereUpdatedAt($value) 
+ * @method static \Illuminate\Database\Query\Builder|\Lahaxearnaud\LaravelToken\Models\Token whereLogin($value) 
  */
 class Token extends Model
 {

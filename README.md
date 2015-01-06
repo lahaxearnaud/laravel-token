@@ -363,5 +363,4 @@ Find all token for an user
 ```
 
 ## Todo
-- token type
 - config to allow only one token by user and type
