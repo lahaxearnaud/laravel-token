@@ -110,7 +110,7 @@ class LaravelTokenServiceProvider extends ServiceProvider
             }
         });
 
-        $this->app['token.clear'] = $this->app->share(function ($app) {
+        $this->app['token.clear'] = $this->app->share(function () {
             return new ClearTokenCommand();
         });
 
