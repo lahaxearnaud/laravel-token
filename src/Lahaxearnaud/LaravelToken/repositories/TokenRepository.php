@@ -61,7 +61,6 @@ class TokenRepository implements RepositoryInterface {
 	/**
 	 * returns the model found
 	 *
-	 * @param int $id
 	 *
 	 * @return Collection
 	 */
@@ -91,7 +90,7 @@ class TokenRepository implements RepositoryInterface {
 	/**
 	 * @param Token $token
 	 *
-	 * @return bool
+	 * @return boolean|null
 	 */
 	public function delete(Token $token) {
 
@@ -101,7 +100,7 @@ class TokenRepository implements RepositoryInterface {
 	/**
 	 * @param Token $token
 	 *
-	 * @return Token
+	 * @return boolean
 	 */
 	public function save(Token $token) {
 

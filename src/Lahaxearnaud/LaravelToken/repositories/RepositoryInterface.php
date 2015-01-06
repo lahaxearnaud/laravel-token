@@ -35,7 +35,6 @@ interface RepositoryInterface {
 	/**
 	 * returns the Token found
 	 *
-	 * @param int $id
 	 *
 	 * @return Collection
 	 */
