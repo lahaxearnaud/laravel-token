@@ -45,14 +45,14 @@ interface RepositoryInterface {
 	 *
 	 * @param int $token
 	 *
-	 * @return Collection
+	 * @return Token
 	 */
 	public function findByToken($token, $userId);
 
 	/**
 	 * @param Token $token
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public function delete(Token $token);
 
