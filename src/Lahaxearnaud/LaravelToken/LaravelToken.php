@@ -138,7 +138,7 @@ class LaravelToken
      * @param $userId
      *
      * @author LAHAXE Arnaud <lahaxe.arnaud@gmail.com>
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return Token
      */
     public function findByToken ($token, $userId = NULL)
     {
