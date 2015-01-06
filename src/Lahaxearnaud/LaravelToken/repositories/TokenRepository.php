@@ -74,7 +74,7 @@ class TokenRepository implements RepositoryInterface {
 	 *
 	 * @param int $token
 	 *
-	 * @return Collection
+	 * @return Token
 	 */
 	public function findByToken($token, $userId = null) {
 
