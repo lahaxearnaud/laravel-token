@@ -106,8 +106,6 @@ class LaravelToken
      */
     public function create ($userId = NULL, $allowLogin = false, $lifetime = 3600, $length = 100)
     {
-        $token      = NULL;
-
         do {
             $token = $this->repository->create($userId, $allowLogin, $lifetime, $length);
         } while ($this->repository->exists($token->token));
