@@ -31,7 +31,7 @@ class Token extends Model
     /**
      * Get the post's author.
      *
-     * @return \User
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function user()
     {

@@ -6,7 +6,7 @@ Laravel token
 [![CodeClimat](https://d3s6mut3hikguw.cloudfront.net/github/lahaxearnaud/laravel-token/badges/gpa.svg)](https://codeclimate.com/github/lahaxearnaud/laravel-token)
 [![Test Coverage](https://codeclimate.com/github/lahaxearnaud/laravel-token/badges/coverage.svg)](https://codeclimate.com/github/lahaxearnaud/laravel-token)
 [![License](https://poser.pugx.org/leaphly/cart-bundle/license.svg)](https://github.com/lahaxearnaud/laravel-token)
-
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/lahaxearnaud/laravel-token/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/lahaxearnaud/laravel-token/?branch=master)
 
 ## Table of Contents
 
